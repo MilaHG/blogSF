@@ -1,0 +1,24 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+    
+    {#{{ dump(persons) }}#}
+    <table class="table">
+        <tr>
+            <th>Id</th>
+            <th>Prénom</th>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Date de naissance</th>
+        </tr>
+        {% for person in persons %}
+            <tr>
+                <td>{{ person.id }}</td> {#raccourci pour appeler la méthode getId de l'objet de la classe person#}
+                <td>{{ person.firstname }}</td> 
+                <td>{{ person.lastname }}</td> 
+                <td>{{ person.email }}</td> 
+                <td>{{ person.birthDate|date('d-m-Y') }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

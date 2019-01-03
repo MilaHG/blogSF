@@ -1,0 +1,93 @@
+{# surcharge la vue de base.html.twig #}
+{% extends 'base.html.twig' %}
+
+{# définit la variable toto #}
+{% set toto = 'hello' %}
+
+{# surcharge le bloc body de base.html.twig #}
+{% block body %}
+    <div class="container">
+    {# affiche le contenu du bloc surchargé #}
+    {{ parent() }}
+    {# affiche ma variable hello, puis name #}
+    {{ hello }}<br />{{ name }}
+    
+    {# Pour tester #}
+    {{ dump(name) }}
+    
+    {% if name is not null %}
+        <p>Vous avez un nom</p>
+    {% endif %}
+    
+    {{ dump(pronoms) }}
+    
+    {# boucle sur un tableau #}
+    {% for pronom in pronoms %} {#en php ce serait foreach pronoms as pronom{boucle}#}
+        {{ pronom }}<br />
+    {% endfor %}
+    
+    <hr />
+    
+    {# boucle clé/valeur sur un tableau #}
+    {% for index, pronom in pronoms %} {#en php ce serait foreach pronoms as index => pronom{boucle}#}
+        {{ index }} :  {{ pronom }}<br />
+    {% endfor %}<br />
+    
+    {#  #}
+    {% if int > 2 %}
+        <P>$int est supérieur à 2</p>
+    {% elseif int < 1 %}
+        <p>$int est inférieur à 1</p>
+    {% else %}
+        <P>$int vaut 1 ou 2</p>
+    {% endif %}<br />
+    
+    {# équivalent de isset() en PHP #}
+    {% if int is defined %}
+        <p>int est défini</p>
+    {% endif %}<br />
+    
+    {# équivalent de empty() en PHP #}
+    {% if int is empty %}
+        <p>int est vide</p>
+    {% endif %}
+    
+    {# not #}
+    {% if int is not empty %}
+        <p>int n'est pas vide</p>
+    {% endif %}
+    
+    {# and = && #}
+    {% if int > 2 and name == 'Mila' %}
+        <p>Les 2 conditions sont remplies</p>
+    {% endif %}
+    
+    {# or = || #}
+    {% if int > 2 or name == 'Mila' %}
+        <p>Une des 2 conditions est remplie</p>
+    {% endif %}
+    
+    {# or = || #}
+    {% if int in [1, 2, 3] %}
+        <p>int vaut 1, 2 ou 3</p>
+    {% endif %}
+    
+    {# application d'un filtre avec | #}
+    {# dans ce cas ici 'upper' permet de mettre en majuscules #}
+    <p>{{ name|upper }}</p>
+    
+    {# si var est empty alors on affiche une valeur par défaut #}
+    <p>{{ var|default('var ne vaut rien') }}</p>
+    
+    {# raw n'échappe pas le html #}
+    {{ html|raw }}
+    
+    {# e ou escape = htmlentities() #}
+    {{ html|e }}<hr />
+    
+    <p>{{ now|date('d-m-Y H:i:s') }}</p>
+     
+    </div>
+
+
+{% endblock %}      

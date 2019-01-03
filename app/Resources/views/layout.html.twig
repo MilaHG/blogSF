@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{# layout = template qui a les éléments communs à toutes les pages#}
+
+{% block title %}Blog{% endblock %} {#Je surcharge le block title du fichier views/base.html.twig#}
+
+{% block stylesheets %}
+    <!-- Bootstrap Core CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}"/> {#asset va aller chercher à la raçine du site - ici web/ qui est le point d'entrée du site, comme un index.php #}
+{% endblock %}
+
+{% block body %}
+    {#si on a un utilisateur connecté#}
+    {#et qu'il a le role ROLE_ADMIN#}
+    {% if is_granted('ROLE_ADMIN') %}
+        <nav class="navbar navbar-inverse navbar-admin">
+            <div class="container">
+                <a class="navbar-brand">Menu Admin</a>
+                <ul class="nav navbar-nav">
+                    <li {% if app.request.get('_route') == 'app_admin_category_list' %} class="active" {% endif %}>
+                        <a href="{{ path('app_admin_category_list') }}">Gestion catégories</a>
+                    </li>
+                    <li {% if app.request.get('_route') == 'app_admin_article_list' %} class="active" {% endif %}>
+                        <a href="{{ path('app_admin_article_list') }}">Gestion articles</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    {% endif %}
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <a class="navbar-brand" href="{{ path('homepage') }}">Blog</a>
+            {# nav qui affiche le titre de nos rubriques/category #}
+            {{ render(controller('AppBundle:Category:menu')) }}
+            <ul class="nav navbar-nav navbar-right">
+                {% if app.user is not null %} {#si un utilisateur est connecté#}
+                    <li>
+                        <a>{{ app.user.username }}</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('logout') }}">Déconnexion</a>
+                    </li>
+                {% else %} {#pas d'user connecté#}
+                    <li {% if app.request.get('_route') == 'app_security_register' %} class="active" {% endif %}>
+                        <a href="{{ path('app_security_register') }}">Créer un compte</a>
+                    </li>
+                    <li {% if app.request.get('_route') == 'login' %} class="active" {% endif %}>
+                        <a href="{{ path('login') }}">Connexion</a>
+                    </li>
+                {% endif %}
+                {# ajout du formulaire de contact créé dans AppBundle/Controller/ContactController et la vue dans views/contact/index.html.twig #}
+                <li {% if app.request.get('_route') == 'app_contact_index' %} class='active' {% endif %}>
+                    <a href='{{ path('app_contact_index') }}'>Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        {# bloc permettant d'afficher les messages flash en style bootstrap #}
+        {% for label, flashes in app.session.flashbag.all %}
+            {% for flash in flashes %} {#on re-boucle pour chacun des messages à l'intérieur des types de messages#}
+                {% if label == 'error' %} {% set label = 'danger' %} {% endif %}
+                <div class='alert alert-{{ label }}'>
+                    {{ flash }}
+                </div>
+            {% endfor %}
+        {% endfor %}    
+            
+        {% block page_title %}{% endblock %}
+        {% block content %}{% endblock %}
+    </div>
+{% endblock %}
+
+{% block javasripts %}
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+{#    <script src="{{ asset('js/monjs.js') }}"></script>#}
+{% endblock %}

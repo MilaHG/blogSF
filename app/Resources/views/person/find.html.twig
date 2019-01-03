@@ -1,0 +1,10 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+    {% if person is not null %}
+        <b>Nom :</b> {{ person.firstname }} {{ person.lastname }}<br />
+        <b>Email :</b> {{ person.email }}<br />
+    {% else  %}
+        <p>Personne non trouvée en BDD</p>
+    {% endif %}    
+{% endblock %}

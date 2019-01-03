@@ -1,0 +1,19 @@
+{% extends "layout.html.twig" %}
+
+{% block page_title %}<h1>Création de compte</h1>{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+    {{ form_row(form.username) }} {#row créé le bloc avec label + élément#}
+    {{ form_row(form.firstname) }}
+    {{ form_row(form.lastname) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.plainPassword) }}
+    {{ form_row(form.avatar) }}
+    <div class="form-btn-group pull-right">
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <a href="{{ path('homepage') }}" class="btn btn-info">Annuler</a>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+

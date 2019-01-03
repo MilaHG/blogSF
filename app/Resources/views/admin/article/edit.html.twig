@@ -1,0 +1,30 @@
+{% extends "layout.html.twig" %}
+
+{% block page_title %}
+    <h1>
+    {% if new %}
+        Création article
+    {% else %}
+        Modification article
+    {% endif %}
+    </h1>
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }} {#ouverture balise form#}
+    {{ form_row(form.title) }}
+    {{ form_row(form.content) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.category) }}
+    <div class="form-btn-group pull-right">
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <a href="{{ path('app_admin_article_list') }}" class="btn btn-info">Annuler</a>
+    </div>
+    {{ form_end(form) }} {#fermeture balise form#}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }} {# pour ajouter au bloc sans remplacer le contenu #}
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script>tinymce.init({selector: '.wysiwyg'});</script>
+{% endblock %}

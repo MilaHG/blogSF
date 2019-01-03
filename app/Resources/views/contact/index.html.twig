@@ -1,0 +1,18 @@
+{% extends 'layout.html.twig' %}
+
+{% block page_title %}<h1>Contact</h1>{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }} {# le nom de la vue 'form_start...' vient du controller (ici ContactController : return $this->render(
+            'contact/index.html.twig',
+            [
+                'form'  => $form->createView(), #}
+    {{ form_row(form.name) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.subject) }}
+    {{ form_row(form.body) }}
+    <div class='form-btn-group pull-right'>
+        <button type='submit' class='btn btn-warning'>Envoyer</button>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

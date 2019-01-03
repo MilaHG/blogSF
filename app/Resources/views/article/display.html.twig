@@ -1,0 +1,47 @@
+{% extends "layout.html.twig" %}
+
+{% block page_title %}<h1>{{ article.title }}</h1>{% endblock %}
+
+{% block content %}
+    <article>
+        <p>Dans {{ article.category }}, par {{ article.author.username }}</p>
+        <p><i>{{ article.description }}</i></p>
+        <div>{{ article.content|raw }}</div> {# le filtre raw permet d'afficher le HTML sans transformer les <> du code en hmtlentities #}
+    </article>
+        
+    {# on appelle en view le formulaire pour poster des commentaires que pour les utilisateurs connectés (Form/CommentType.php) #}
+    <h2>Commentaires</h2>
+    {% if app.user %}
+        <div class='well'>
+            <h3>Votre commentaire</h3>
+            {{ form_start(form) }}
+            {{ form_row(form.title) }}
+            {{ form_row(form.content) }}
+            <div class='form-btn-group pull-right'>
+                <button type='submit' class='btn btn-success'>Enregistrer</button>
+            </div>
+            <div class='clearfix'></div>
+            {{ form_end(form) }}
+        </div>
+    {% else %}
+        <div class='alert alert-info'>
+            Vous devez être connecté pour publier un commentaire.
+        </div>
+    {% endif %}
+    
+    {% for comment in comments %}
+        <div class='well well-sm'>
+            <h4>
+                {% if comment.user.avatar %}
+                    <img src='{{ asset('upload/' ~ comment.user.avatar) }}' height='30px' />
+                {% endif %}
+                {{ comment.user.username }}
+            </h4>
+            <h5>
+                {{ comment.title }}
+                <small>{{ comment.date|date('d-m-Y H:i:s') }}</small>
+            </h5>
+                <p>{{ comment.content|nl2br }}</p> {# nl2br => insère des retours à la ligne avant toute nouvelle string #}
+        </div>
+    {% endfor %}
+{% endblock %}

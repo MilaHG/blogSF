@@ -1,0 +1,12 @@
+<article>
+    <h3>
+        {{ article.title }}
+        <small>
+            <a href="{{ path('app_article_display', {"id" : article.id}) }}">
+                <i class="glyphicon glyphicon-share"></i>
+            </a>
+        </small>
+    </h3>
+    <div class="well">{{ article.description }}</div>
+    <p>Dans {{ article.category }}, par {{ article.author.username }}</p>
+</article>

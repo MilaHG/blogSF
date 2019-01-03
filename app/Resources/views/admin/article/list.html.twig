@@ -1,0 +1,38 @@
+{% extends "layout.html.twig" %}
+
+{% block page_title %}<h1>Gestion articles</h1>{% endblock %}
+
+{% block content %}
+    <p>
+        <a href="{{ path('app_admin_article_edit') }}">Ajouter un article</a>
+    </p>
+    <table class="table">
+        <tr>
+            <th>Id</th>
+            <th>Titre</th>
+            <th>Rubrique</th>
+            <th>Auteur</th>
+            <th width="100px"></th>
+        </tr>
+        {% for article in articles %}
+            <tr>
+                <td>{{ article.id }}</td>
+                <td>{{ article.title }}</td>
+                <td>{{ article.category.name }}</td>
+                <td>{{ article.author.username }}</td>
+                <td>
+                    <a href='{{ path('app_admin_article_edit', {"id": article.id}) }}' class='btn btn-warning'>
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Modifier"></span>
+                    </a>
+                    <a href='{{ path('app_admin_article_delete', {"id": article.id}) }}' class='btn btn-danger'>
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true" title="Supprimer"></span>
+                    </a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5" align="center">Aucun résultat</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

@@ -1,0 +1,12 @@
+{# page d'accueil des Rubriques (category) #}
+{% extends "layout.html.twig" %}
+
+{% block page_title %}<h1>{{ category }}</h1>{% endblock %}
+
+{% block content %}
+    {% for article in articles %}
+        {% include 'article/preview.html.twig' with {"article" : article} %}
+        {# with {"article" : article} => article à afficher dans la vue en cours est celui sur lequel on est en train de boucler #}
+        {# with est un mot clé de S3 #}
+    {% endfor %}
+{% endblock %}
